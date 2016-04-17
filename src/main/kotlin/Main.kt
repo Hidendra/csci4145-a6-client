@@ -9,16 +9,17 @@ fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
 
 fun main(args: Array<String>) {
     if (args.size != 7) {
-        println("Usage: Main <url> <payload size (KB)> <timeout (seconds)> <simple|detailed> <num cycles> <requests per cycle>")
+        println("Usage: Main <url> <payload size (KB)> <timeout (seconds)> <simple|detailed> <num cycles> <requests per cycle> <apiToken>")
         exitProcess(1)
     }
 
     val urlPath = args[0]
-    val payloadSizeKilobytes = args[2].toInt()
-    val timeoutSeconds = args[3].toInt()
-    val useDetailedOutput = args[4] == "detailed"
-    val numCycles = args[5].toInt()
-    val requestsPerCycle = args[6].toInt()
+    val payloadSizeKilobytes = args[1].toInt()
+    val timeoutSeconds = args[2].toInt()
+    val useDetailedOutput = args[3] == "detailed"
+    val numCycles = args[4].toInt()
+    val requestsPerCycle = args[5].toInt()
+    val apiToken = args[6]
 
     val url = URL(urlPath)
 
@@ -37,7 +38,7 @@ fun main(args: Array<String>) {
         // real (wall clock) time taken is important for averages
         val wallClockTimeTaken = measureTimeMillis {
             for (requestNumber in 1..requestsPerCycle) {
-                val request = Request(url, payloadSizeKilobytes, timeoutSeconds)
+                val request = Request(url, requestNumber, payloadSizeKilobytes, timeoutSeconds, apiToken)
 
                 requests.add(request)
 
