@@ -18,7 +18,7 @@ class Request(val url: URL, val requestId: Int, val payloadSizeKilobytes: Int, v
                 connection.doOutput = true
 
                 connection.addRequestProperty("Content-Type", "application/json")
-                connection.addRequestProperty("Authorization", "Token: ${apiToken}")
+                connection.addRequestProperty("Authorization", "Token ${apiToken}")
 
                 connection.outputStream.use {
                     val body = "{\"cloud_computing\": {\"id\": ${requestId}, \"payload_size\": ${payloadSizeKilobytes}}}";
